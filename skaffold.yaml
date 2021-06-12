@@ -1,0 +1,38 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+# 쿠버네티스 배포 설정
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/gcpk8s/*
+    defaultNamespace: dev
+# 도커 이미지 빌드 관련 설정
+build:
+  # local:
+  #   push: false
+  # googleCloudBuild:
+  #   projectId: kubernetes-315817
+  artifacts:
+    - image: plutorian131/getmem
+      context: getmem
+      docker:
+        dockerfile: Dockerfile
+    - image: plutorian131/nodecheck
+      context: nodecheck
+      docker:
+        dockerfile: Dockerfile
+    - image: plutorian131/sayservice
+      context: sayservice
+      docker:
+        dockerfile: Dockerfile
+    - image: plutorian131/frontend
+      context: frontend
+      docker:
+        dockerfile: Dockerfile
+# 소스 싱크 관련 설정
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+          - src: 'src/**/*.js'
+            dest: .
