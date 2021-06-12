@@ -14,4 +14,5 @@ app.all('*', async (req, res) => {
 
 app.listen(3001, () => {
     console.log('getmem app started. listen on 3001 port.');
+    console.log('add HELL WORLD');
 });
